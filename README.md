@@ -4,3 +4,79 @@ This is a simple method to make datatables on Laravel with a fast call and confi
 ## No Package
 This is no package. In the future it may be.
 But now is only a simple way to make datatables. We only use one **controller** and two **views**.
+
+I make this because I tried different packages for develop datatables with Laravel, but no one works on useful way.
+With no one we save time implementing the datatables. All packages are as useful and fast as create the table and include and configure DataTable jQuery.
+
+But with this controller and views, we improve the way to include datatables on Laravel.
+
+## Features
+This way have some useful things:
+
+* The first element contain a link to edit or show this item (p.e. if you show users, first element link with user profile)
+* The first element link is by default *controller*.**edit**, but is posible to change it
+* With other elements, if the element is an email, the system convert to email link
+* Not need to configurate jQuery (but is possible, because the script is one of two views)
+
+## Usage
+* We assume you have jquery included in your HTML
+
+1. Include jquery and css Datatable on your header/footer
+```
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
+```
+
+2. Include file DatatableController.php
+```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+class DatatableController extends Controller
+{
+    /**
+     * Para mostrar datatables.
+     *
+     * @param   string      $dt_id          [el id de la tabla que se convertira en datatable]
+     * @param   Collection  $values         [representa la colección de valores que se han de incorporar a la tabla]
+     * @param   array       $array_values   [array que contiene los atributos/columnas a mostrar]
+     * @param   string      $link           [dirección a la que saltar en el primer parámetro, por defecto 'edit']
+     * @param   boolean     $search         [true = se muestran inputs de busqueda en cada columna (pierde traducción)]
+     * @return vista HTML
+     */
+    public function datatable($dt_id, $values, $array_values, $link = 'edit', $search = false)
+    {
+        $view = \View::make('datatable.datatable', [
+                                                        'values'        => $values,
+                                                        'datatable_id'  => $dt_id,
+                                                        'array_values'  => $array_values,
+                                                        'link'          => $link,
+                                                        'search'        => $search
+                                                    ]);
+        $contents = $view->render();
+
+        return  $contents;
+    }
+
+    /**
+     * Para mostrar el jQuery que carga los datatables.
+     *
+     * @param   string      $dt_id          [el id de la tabla que se convertira en datatable]
+     * @param   boolean     $search         [true = se muestran inputs de busqueda en cada columna (pierde traducción)]
+     * @return vista HTML
+     */
+    public function script($dt_id, $search = false)
+    {
+        $view = \View::make('datatable.script', ['datatable_id' => $dt_id, 'search' => $search]);
+        $contents = $view->render();
+
+        return  $contents;
+    }
+}
+```
