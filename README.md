@@ -188,3 +188,7 @@ Into view
 	{!! $script !!}
 @endsection
 ```
+
+### Credits
+We hope it will be useful for you!
+[freshware.es](http://freshware.es)
