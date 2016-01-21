@@ -151,3 +151,40 @@ class DatatableController extends Controller
     });
 </script>
 ```
+
+## Usage
+The way to use is very simple: On your controller, into method you want, you store into variable the data you want from database. After you only need to call the 2 views.
+
+We have to lines to complete the datable:
+```php
+$datatable = (new DataTableController)->datatable(datatableId, itemsCollection, arrayWithColumnsOrValues, linkToProfile, BooleanToShowFinders);
+$script = (new DataTableController)->script(datatableId, BooleanToShowFinders);
+```
+
+**Note:** The linkProfile and BooleanToShowFinders are optionals.
+
+**EXAMPLE** If I want to show all users from `UsersController@index`, I do this :
+Into controller
+```php
+$users = User::all(); // For get users from database
+
+$datatable = (new DataTableController)->datatable('datatable_prueba', $users, ['name', 'email', 'phone'], 'show', false);
+$script = (new DataTableController)->script('datatable_prueba', false);
+
+return view('users.index', ['datatable' => $datatable, 'script' => $script]);
+```
+
+Into view
+```php
+@extends('app')
+
+@section('content')
+	<div class="col-xs-12 col-sm-10">
+		{!! $datatable !!}
+	</div>
+@endsection
+
+@section('scripts')
+	{!! $script !!}
+@endsection
+```
