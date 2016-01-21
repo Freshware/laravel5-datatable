@@ -3,4 +3,4 @@ This is a simple method to make datatables on Laravel with a fast call and confi
 
 ## No Package
 This is no package. In a future may be.
-But now is only a way composed with one controller and two views.
+But now is only a way composed with one `controller` and two views.
