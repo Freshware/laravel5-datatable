@@ -104,9 +104,15 @@ class DatatableController extends Controller
 			    	@for ($i = 0; $i < count($array_values); $i++)
 			    		@if ($i == 0)
 			    			<td>
-			    				<a href="{{ route('usuario.' . $link, $value->id) }}" class="text-success">
-			    					<strong>{!! $value->getAttribute($array_values[$i]) !!}</strong>
-			    				</a>
+                                @if ($route)
+                                <a href="{{ route($route . '.' . $link, $value->id) }}" class="text-success">
+                                    <strong>{!! $value->getAttribute($array_values[$i]) !!}</strong>
+                                </a>
+                                @else
+                                <span class="text-success">
+                                    <strong>{!! $value->getAttribute($array_values[$i]) !!}</strong>
+                                </span>
+                                @endif
 			    			</td>
 			    		@else
 			    			@if (filter_var($value->getAttribute($array_values[$i]), FILTER_VALIDATE_EMAIL))
